@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>油費分擔計算器</title>
+    <style>
+        body {
+            font-family: "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .calculator {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #7A848D;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px;
+            border: 1px solid #ddd;
+            color:#495057
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        button {
+            background: #adb1b4;
+            color: white;
+            border: none;
+            padding: 15px;
+            width: 100%;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s; /* 添加過渡效果 */
+        }
+        /* 按鈕按下去時的樣式 */
+        button:active {
+            background: #AD85BD; /* 更深的藍色 */
+            transform: scale(0.98); /* 輕微縮小 */
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 陰影效果 */
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            text-align: center;
+            color: #B95756;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1>油費分擔計算器</h1>
+        <label for="price">當前油價（元/公升）</label>
+        <input type="number" id="price" placeholder="例如：30.5">
+
+        <label for="km">行駛公里數</label>
+        <input type="number" id="km" placeholder="例如：150">
+
+        <label for="efficiency">車輛油耗（km/L）</label>
+        <input type="number" id="efficiency" placeholder="例如：12.5">
+
+        <label for="people">分擔人數</label>
+        <input type="number" id="people" placeholder="例如：3">
+
+        <button id="calculateBtn" onclick="calculate()">計算分擔金額</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // 獲取按鈕元素
+        const calculateBtn = document.getElementById('calculateBtn');
+        
+        // 添加點擊事件監聽器
+        calculateBtn.addEventListener('mousedown', function() {
+            this.style.backgroundColor = '#AD85BD'; // 按下去變深藍
+        });
+        
+        calculateBtn.addEventListener('mouseup', function() {
+            this.style.backgroundColor = '#adb1b4'; // 放開恢復原色
+        });
+        
+        calculateBtn.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = '#adb1b4'; // 滑鼠移開也恢復
+        });
+
+        function calculate() {
+            const price = parseFloat(document.getElementById("price").value);
+            const km = parseFloat(document.getElementById("km").value);
+            const efficiency = parseFloat(document.getElementById("efficiency").value);
+            const people = parseInt(document.getElementById("people").value);
+            
+            if (isNaN(price) || isNaN(km) || isNaN(efficiency) || isNaN(people)) {
+                document.getElementById("result").innerHTML = "⚠️ 請輸入有效數字！";
+                return;
+            }
+            
+            const cost = (km / efficiency) * price;
+            document.getElementById("result").innerHTML = 
+                `每人分擔: <span style="color:#B95756;">${(cost / people).toFixed(1)}</span> 元`;
+        }
+    </script>
+</body>
+</html>
